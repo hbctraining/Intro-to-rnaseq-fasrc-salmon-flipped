@@ -1,7 +1,7 @@
 ---
 title: "Quantification of transcript abundance using Salmon"
 author: "Mary Piper, Meeta Mistry, Radhika Khetani, Jihe Liu"
-date: "Thursday, November 19, 2020"
+date: "Friday, October 8, 2021"
 ---
 
 Approximate time: 1.25 hours
@@ -29,7 +29,7 @@ Common to all of these tools is that **base-to-base alignment of the reads is av
 
 The "quasi-mapping" approach utilized by Salmon **requires a transcriptome reference index** to determine the position and orientation information for where the fragments best map prior to quantification [[2](https://academic.oup.com/bioinformatics/article/32/12/i192/2288985/RapMap-a-rapid-sensitive-and-accurate-tool-for)]. The reference index essentially provides the transcriptome in a format that is **easily and rapidly searchable**. Therefore, it will allow us to quickly find the positions in the transcriptome where each of the reads originated.
 
-> **NOTE:** Since we are searching against only the transcripts (transcriptome), Salmon would not be the appropriate tool to use if trying to detect **novel genes or isoforms, intron retention events, or other methods that require a well annotated whole genome instead of only the transcriptome**.
+> **NOTE:** Since we are searching against only the transcripts (transcriptome), Salmon would not be the appropriate tool to use if trying to detect **novel genes or isoforms or other methods that require a well annotated whole genome instead of only the transcriptome**.
 
 <p align="center">
 <img src="../img/salmon_workflow_subset.png" width="300">
