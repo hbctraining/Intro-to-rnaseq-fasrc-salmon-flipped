@@ -1,6 +1,6 @@
 # Workshop Schedule
 
-> **Pre-requisite for this workshop:** The *Basic Data Skills* [Introduction to the command-line interface](https://hbctraining.github.io/Intro-to-shell-flipped/schedule/) workshop or a working knowledge of the command line and cluster computing.
+> **Pre-requisite for this workshop:** The *Basic Data Skills* [Introduction to the command-line interface](https://hbctraining.github.io/Intro-to-shell-fasrc-flipped/) workshop or a working knowledge of the command line and cluster computing.
 
 ## Pre-reading
 
