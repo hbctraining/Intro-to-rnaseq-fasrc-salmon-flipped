@@ -1,7 +1,7 @@
 ---
 title: Working on HPC
-author: Radhika Khetani, Meeta Mistry, Mary Piper, Jihe Liu
-date: November 16, 2020
+author: Radhika Khetani, Meeta Mistry, Mary Piper, Jihe Liu, Will Gammerdinger
+date: November 16, 2021
 duration: 35
 ---
 
@@ -42,33 +42,47 @@ This is great, but it is not as efficient as multithreading each analysis, and u
 <img src="../img/multithreaded_hpc_3samples.png" width="650">
 </p>
 
-## Connect to a *login* node on O2
+## Connect to a *login* node on FAS-RC
 
-Let's get started with the hands-on component by typing in the following command to log in to O2:
+### FASRC accounts
+
+For this workshop we will be using your FASRC cluster account to log in. If you do not already have a cluster account, you can [request one here](https://portal.rc.fas.harvard.edu/request/account/new).
+
+> Without an existing cluster account, this workshop will provide limited value, and accounts can take some time to activate since they require approval from your PI.  For this reason, we recommend having an account prior to attending this workshop.
+
+**Two-factor authentication**
+
+Access to the FASRC cluster requires two-factor authentication. Be sure that you have set-up your Duo two-factor authentication using the resources provided [here](https://docs.rc.fas.harvard.edu/kb/duo-mobile/). 
+
+### Let's log in 
+
+Type in the `ssh` command at the command prompt followed by a space, and then type your username (e.g. jharvard) plus the address of the cluster `@login.rc.fas.harvard.edu`. There is no space between the username and the "@" symbol (see below).
 
 ```bash
-ssh username@o2.hms.harvard.edu
+ssh username@login.rc.fas.harvard.edu
 ```
 
 You will receive a prompt for your password, and you should type in your associated password; **note that the cursor will *not move* as you type in your password**.
 
+After a successful password attempt, you will be queried for a "Verification code" which can be found on your Duo App. Note that the two-factor authentication used on the FASRC is different than your Harvard Key.
+
 A warning might pop up the first time you try to connect to a remote machine, type "Yes" or "Y". 
 
-Once logged in, you should see the O2 icon, some news, and the command prompt, e.g. `[rc_training10@login01 ~]$`.
+Once logged in, you should see some news for cluster and the command prompt, e.g. `[jharvard@boslogin01 ~]$`.
 
-> Note 1: `ssh` stands for secure shell. All of the information (like your password) going between your computer and the O2 login computer is encrypted when using `ssh`.
+> Note 1: `ssh` stands for ***s***ecure ***sh***ell. All of the information (like your password) going between your computer and the FAS-RC login computer is encrypted when using `ssh`.
 
 About nodes:
 * A "node" on a cluster is essentially a computer in the cluster of computers. 
 * There are dedicated login nodes and compute nodes.
-* A login node's only function is to enable users to log in to a cluster, it is not meant to be used for any actual work/computing. There are 6 login nodes on O2.
-* There are several hundred compute nodes on O2 available for performing your analysis/work. 
+* A login node's only function is to enable users to log in to a cluster, it is not meant to be used for any actual work/computing. There are only a handful of login nodes on FAS-RC.
+* There are several hundred compute nodes on FAS-RC available for performing your analysis/work. 
 
-## Connect to a *compute* node on O2
+## Connect to a *compute* node on FAS-RC
 
 You can access compute nodes in 2 ways using a job scheduler or resource manager like Slurm.
-1. Directly using an interactive session (Slurm's `srun` command): 
-    * The `srun` command with a few mandatory parameters will create an "interactive session" on O2. 
+1. Directly using an interactive session (Slurm's `salloc` command): 
+    * The `salloc` command with a few mandatory parameters will create an "interactive session" on FAS-RC. 
     * This is essentially a way for us to do work on the compute node directly from the terminal. 
     * If the connectivity to the cluster is lost in the middle of a command being run that work will be lost in an interactive session.
 1. By starting a "batch" job (Slurm's `sbatch` command): 
@@ -76,39 +90,37 @@ You can access compute nodes in 2 ways using a job scheduler or resource manager
     * This "job" will not be accessible directly from the Terminal and will run in the background. 
     * Users do not need to remain connected to the cluster when such a "batch job" is running.
 
-For now let's start an interactive session on O2 using `srun`. 
+For now let's start an interactive session on FAS-RC using `salloc`. 
 
 ```bash
-$ srun --pty -p interactive -t 0-3:00 --mem 1G --reservation=HBC1 /bin/bash
+$ salloc -p test -t 0-2:30 --mem 1G
 ```
 
 In the above command the parameters we are using are requesting specific resources:
-* `--pty` - Start an interactive session
-* `-p interactive` - on the "partition" called "interactive" (a partition is a group of computers dedicated to certain types of jobs, interactive, long, short, high-memory, etc.)
-* `-t 0-8:00` - time needed for this work: 0 days, 8 hours, 0 minutes.
+* `-p test` - on the "partition" called "test" (a partition is a group of computers dedicated to certain types of jobs, interactive, long, short, high-memory, etc.)
+* `-t 0-2:30` - time needed for this work: 0 days, 2 hours, 30 minutes.
 * `--mem 1G` - memory needed - 1 gibibyte (GiB)
-* `--reservation=HBC1` - *this is only for **in class** portions of this workshop, make sure you don't use it for self-learning or when you have your own accounts.*
-* `/bin/bash` - You want to interact with the compute node using the *bash* shell
+
 
 > These parameters are used for `sbatch` as well, but they are listed differently within the script used to submit a batch job. We will be reviewing this later in this lesson.
 
-**Make sure that your command prompt now contains the word "compute", *e.g. `[rc_training10@compute-a-16-163 ~]$`*.** 
+**Make sure that your command prompt should now looks something like `[jharvard@holy7c24601 ~]$`.** 
 You are now working on a compute node directly in an "interactive" session!
 
 Let's check how many jobs we have running currently, and what resources they are using.
 
 ```bash
-$ O2squeue
+$ squeue
 ```
 
-## More about Slurm
+## More about SLURM
 
-* Slurm = Simple Linux Utility for Resource Management
+* SLURM = **S**imple **L**inux **U**tility for **R**esource **M**anagement
 * Fairly allocates access to resources (computer nodes) to users for some duration of time so they can perform work
 * Provides a framework for starting, executing, and monitoring batch jobs
 * Manages a queue of pending jobs; ensures that no single user or core monopolizes the cluster
 
-### Requesting resources from Slurm
+### Requesting resources from SLURM
 
 Below is table with some of the arguments you can specify when requesting resources from Slurm for both `srun` and `sbatch`:
 
