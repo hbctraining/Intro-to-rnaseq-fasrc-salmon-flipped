@@ -1,7 +1,7 @@
 ---
 title: "The Shell"
-author: "Mary Piper, Radhika Khetani, Meeta Mistry, Jihe Liu"
-date: "October 26, 2020"
+author: "Mary Piper, Radhika Khetani, Meeta Mistry, Jihe Liu, Will Gammerdinger"
+date: "November 2021"
 ---
 
 ## Learning Objectives
@@ -10,11 +10,11 @@ date: "October 26, 2020"
 
 ## Setting up
 
-This workshop assumes that you have either a) taken our [Introduction to command-line interface workshop](https://hbctraining.github.io/Intro-to-shell-flipped/schedule/) or b) been working on the command-line and are already fluent with shell/bash. **We ask that you complete the exercises below**, to refresh some basic commands that you will be using over the course of the workshop. For each section we have relevant materials linked as a helpful reference. 
+This workshop assumes that you have either a) taken our [Introduction to command-line interface workshop](https://hbctraining.github.io/Intro-to-shell-fasrc-flipped/) or b) been working on the command-line and are already fluent with shell/bash. **We ask that you complete the exercises below**, to refresh some basic commands that you will be using over the course of the workshop. For each section we have relevant materials linked as a helpful reference. 
 
 ### Opening up a terminal window
 
-> *NOTE: This mandatory pre-work does not require you to login to the O2 cluster.*
+> *NOTE: This mandatory pre-work does not require you to login to the FAS-RC cluster.*
 
 On your local laptop, you will need to open up your terminal window. This will be different depending on what kind of operating system (OS) you are working on.
 
@@ -45,6 +45,8 @@ $ cd ~/Downloads
 $ ls -l unix_lesson.zip 
 ```
 
+> Note: Your OS may automatically decompress the unix_lesson.zip once it has been downloaded. If so, it wil simply show up as unix_lesson in your `~/Downloads` folder. If this is the case, you can skip the step below decompressing the data.
+
 To decompress the file into a folder called `unix_lesson` we use the `unzip` command:
 
 ```bash
@@ -62,8 +64,8 @@ $ ls -l unix_lesson
 ### Shell basics
 We are going to start this review with some basic commands pertaining to navigating around the filesystem. Helpful reference materials are listed below:
 
-* [Introduction to Shell](https://hbctraining.github.io/Intro-to-shell-flipped//lessons/01_the_filesystem.html)
-* [Wildcards and shortcuts in Shell](https://hbctraining.github.io/Intro-to-shell-flipped/lessons/02_wildcards_shortcuts.html)
+* [Introduction to Shell](https://hbctraining.github.io/Intro-to-shell-fasrc-flipped/lessons/01_the_filesystem.html)
+* [Wildcards and shortcuts in Shell](https://hbctraining.github.io/Intro-to-shell-fasrc-flipped/lessons/02_wildcards_shortcuts.html)
 * [Examining and creating files](https://hbctraining.github.io/Intro-to-shell-flipped/lessons/03_working_with_files.html)
 
 1. Change directory into the `unix_lesson/` directory.
@@ -99,9 +101,9 @@ Next, we will search our files for specific patterns and redirect the results to
 
 ### Permissions
 
-* [Interpreting the permissions string](https://hbctraining.github.io/Intro-to-shell-flipped/lessons/07_permissions_and_environment_variables.html#permissions)
+* [Interpreting the permissions string](https://hbctraining.github.io/Intro-to-shell-fasrc-flipped/lessons/07_permissions_and_environment_variables.html#permissions)
 
-There is a folder in the HBC training shared space on the O2 cluster called `intro_rnaseq_hpc`. Below we have displayed a long listing of its contents. 
+There is a folder in the HBC training shared space on the FAS-RC cluster called `intro_rnaseq_hpc`. Below we have displayed a long listing of its contents. 
 
 ``` bash
 total 714
@@ -133,7 +135,7 @@ drwxrwsr-x  2 mm573 hbctraining  306 Oct  6  2015 trimmed_fastq
 
 ### Environment variables
 
-* [Understanding environment variables](https://hbctraining.github.io/Intro-to-shell-flipped/lessons/07_permissions_and_environment_variables.html#environment-variables)
+* [Understanding environment variables](https://hbctraining.github.io/Intro-to-shell-fasrc-flipped/lessons/07_permissions_and_environment_variables.html#environment-variables)
 
 23. Display the contents of the `$HOME` variable on your computer.
 24. Use the `which` command to check where the executable file for the `pwd` command lives in the directory structure.
