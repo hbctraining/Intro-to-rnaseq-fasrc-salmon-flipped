@@ -122,24 +122,26 @@ $ squeue
 
 ### Requesting resources from SLURM
 
-Below is table with some of the arguments you can specify when requesting resources from Slurm for both `srun` and `sbatch`:
+Below is table with some of the arguments you can specify when requesting resources from SLURM for both `salloc` and `sbatch`:
 
-| Argument | Description / Input | Examples | Links |
-|:-----------:|:----------:|:--------:|:----------:|
-| -p | name of compute partition | short, medium, interactive | [O2 Wiki - Guidelines for choosing a partition](https://wiki.rc.hms.harvard.edu/display/O2/How+to+choose+a+partition+in+O2) | 
-| -t | how much time to allocate to job | 0-03:00, 5:00:00 | [O2 Wiki - Time limits for each partition](https://harvardmed.atlassian.net/wiki/spaces/O2/pages/1586793632/Using+Slurm+Basic#Time-limits) |
-| -c | max cores | 4, 8 | [O2 Wiki - How many cores?](https://harvardmed.atlassian.net/wiki/spaces/O2/pages/1586793632/Using+Slurm+Basic#How-many-cores?) |
-| --mem | max memory | 8G, 8000 | [O2 Wiki - Memory requirements](https://harvardmed.atlassian.net/wiki/spaces/O2/pages/1586793632/Using+Slurm+Basic#Memory-requirements) |
-| -o | name of file to create with standard output | %j.out | [O2 Wiki](https://wiki.rc.hms.harvard.edu/display/O2/Using+Slurm+Basic#UsingSlurmBasic-sbatchoptionsquickreference) |
-| -e | name of file to create with standard error | %j.err | [O2 Wiki](https://wiki.rc.hms.harvard.edu/display/O2/Using+Slurm+Basic#UsingSlurmBasic-sbatchoptionsquickreference) |
-| -J | name of the job | Fastqc_run, rnaseq_workflow_mov10 | [O2 Wiki](https://wiki.rc.hms.harvard.edu/display/O2/Using+Slurm+Basic#UsingSlurmBasic-sbatchoptionsquickreference) |
-| --mail-type | send an email when job starts, ends or errors out  | END, ALL | [O2 Wiki](https://wiki.rc.hms.harvard.edu/display/O2/Using+Slurm+Basic#UsingSlurmBasic-sbatchoptionsquickreference) |
-| --mail-user | send email to this address | xyz10@harvard.edu | [O2 Wiki](https://wiki.rc.hms.harvard.edu/display/O2/Using+Slurm+Basic#UsingSlurmBasic-sbatchoptionsquickreference) |
+| Argument | Description / Input | Examples | 
+|:-----------:|:----------:|:--------:|
+| -p | name of compute partition | test, bigmem, gpu, pi_lab | 
+| -t | how much time to allocate to job | 0-03:00, 5:00:00 | 
+| -c | max cores | 4, 8 | 
+| --mem | max memory | 8G, 8000 | 
+| -o | name of file to create with standard output | %j.out | 
+| -e | name of file to create with standard error | %j.err | 
+| -J | name of the job | Fastqc_run, rnaseq_workflow_mov10 | 
+| --mail-type | send an email when job starts, ends or errors out  | END, ALL | 
+| --mail-user | send email to this address | jharvard@harvard.edu | 
+
+More detailed information for many of these arugments can be found [here](https://docs.rc.fas.harvard.edu/kb/running-jobs/).
 
 ### `sbatch` job submission script
 
-An `sbatch` job submission script is essentially a normal shell script with the Slurm resource request specified at the top (Slurm directives) preceded by `#SBATCH`. Below is an example of an sbatch shell script that is requesting the following: 
-* the "short" partition for 2 hours 
+An `sbatch` job submission script is essentially a normal shell script with the SLURM resource request specified at the top (SLURM directives) preceded by `#SBATCH`. Below is an example of an `sbatch` shell script that is requesting the following: 
+* the "shared" partition for 2 hours 
 * on 4 cores (30 minutes for each core)
 * using 400MiB (100MiB for each core)
 
@@ -147,7 +149,7 @@ An `sbatch` job submission script is essentially a normal shell script with the 
 ```
 #! /bin/sh
 
-#SBATCH -p short
+#SBATCH -p shared
 #SBATCH –t 0-02:00
 #SBATCH –c 4
 #SBATCH --mem=400M
@@ -155,22 +157,22 @@ An `sbatch` job submission script is essentially a normal shell script with the 
 #SBATCH –e %j.err
 #SBATCH -J fastqc_run
 #SBATCH --mail-type=ALL
-#SBATCH –-mail-user=xyz10@med.harvard.edu
+#SBATCH –-mail-user=jharvard@harvard.edu
 
 ## Load the fastqc module
-module load fastqc/0.11.5
+module load fastqc/0.11.8-fasrc01 
 
 # run fastqc (multithreaded)
 fastqc -t 4 file1_1.fq file1_2.fq file2_1.fq file2_2.fq
 ```
 
-## Using software on O2
+## Using software on FAS-RC
 
 ### LMOD system
 
-In the above example we want to run the FastQC tool on four files. However, before we use the `fastqc` command, we've used the command `module load fastqc/0.11.5`. This `module load` command is part of the LMOD system available on O2. It enables users to access software installed on O2 easily, and manages every software's dependency. The LMOD system adds directory paths of software executables and their dependencies (if any) into the `$PATH` variable.
+In the above example we want to run the FastQC tool on four files. However, before we use the `fastqc` command, we've used the command `module load fastqc/0.11.8-fasrc01`. This `module load` command is part of the LMOD system available on FAS-RC. It enables users to access software installed on FAS-RC easily, and manages every software's dependency. The LMOD system adds directory paths of software executables and their dependencies (if any) into the `$PATH` variable.
 
-So, instead of using `/n/app/fastqc/0.11.5/bin/fastqc` as our command, we can load the module and use `fastqc` as the command. 
+So, instead of using `/n/helmod/apps/centos7/Core/fastqc/0.11.8-fasrc01/fastqc` as our command, we can load the module and use `fastqc` as the command. 
 
 Some key LMOD commands are listed below:
 
@@ -185,19 +187,17 @@ Some key LMOD commands are listed below:
 | `module unload modulename/version` | Unload a specific module |
 | `module purge` | Unload all loaded modules |
 
-> Note: On O2, a lot of tools used for analysis of sequencing data need to have the `gcc` compiler module loaded (`module load gcc/6.2.0`) prior to loading the tool of interest.
-
 *** 
 **Exercise**
 
 1. What are the contents of the `$PATH` environment variable?
-1. Try running the `multiqc` command. What do you get as output?
-1. Check if the `multiqc` tool is available as a module. How many versions of `multiqc` are available?
-1. Load `multiqc/1.9`. Did you have to load any additional modules?
-1. List all the modules loaded in your environment
-1. Try running the `multiqc` command again. What do you get as output?
-1. Use the `which` command to find out where the `multiqc` tool is in the file system.
-1. Check the contents of the `$PATH` environment variable again. Any changes compared to before?
+2. Try running the `samtools` command. What do you get as output?
+3. Check if the `samtools` tool is available as a module. How many versions of `samtools` are available?
+4. Load `samtools/1.10-fasrc01`. Did you have to load any additional modules?
+5. List all the modules loaded in your environment
+6. Try running the `samtools` command again. What do you get as output?
+7. Use the `which` command to find out where the `samtools` tool is in the file system.
+8. Check the contents of the `$PATH` environment variable again. Any changes compared to before?
 
 ***
 
