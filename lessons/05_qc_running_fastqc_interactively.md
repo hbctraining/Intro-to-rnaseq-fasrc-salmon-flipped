@@ -1,7 +1,7 @@
 ---
 title: "Quality control using FASTQC"
-author: "Mary Piper, Radhika Khetani, Meeta Mistry, Jihe Liu"
-date: Friday, October 30, 2020
+author: "Mary Piper, Radhika Khetani, Meeta Mistry, Jihe Liu, Will Gammerdinger"
+date: Tuesday, November 16, 2021
 duration: 45 minutes
 ---
 
@@ -76,10 +76,10 @@ FastQC does the following:
 
 ***
 
-> NOTE: Before we run FastQC, **you should be on a compute node** in an interactive session. Please run the following `srun` command if you are not on a compute node.
+> NOTE: Before we run FastQC, **you should be on a compute node** in an interactive session. Please run the following `salloc` command if you are not on a compute node.
 > 
 > ```bash
-> $ srun --pty -p interactive -t 0-3:00 --mem 1G --reservation=HBC1 /bin/bash
+> $ salloc -p test -t 0-3:00 --mem 1G
 > ```
 >
 > ***An interactive session is very useful to test tools and workflows.***
@@ -92,7 +92,7 @@ Change directories to `raw_data`.
 $ cd ~/rnaseq/raw_data
 ```  
 
-Before we start using software, we have to load the module for each tool. On O2, this is done using an **LMOD** system. 
+Before we start using software, we have to load the module for each tool. On FAS-RC, this is done using an **LMOD** system. 
 
 If we check which modules we currently have loaded, we should not see FastQC.
 
@@ -115,7 +115,7 @@ $ module spider fastqc
 Once we know which version we want to use (0.11.3), we can load the FastQC module:
 
 ```bash
-$ module load fastqc/0.11.3
+$ module load fastqc/0.11.8-fasrc01
 ```
 
 Once a module for a tool is loaded, you have essentially made it directly available to you like any other basic shell command.
@@ -155,19 +155,19 @@ Exit the interactive session and start a new one with 6 cores:
 ```bash
 $ exit  #exit the current interactive session (you will be back on a login node)
 
-$ srun --pty -c 6 -p interactive -t 0-3:00 --mem 2G --reservation=HBC1 /bin/bash  #start a new one with 6 cores (-c 6) and 2GB RAM (--mem 2G)
+$ salloc -p test -t 0-3:00 --mem 2G -c 6  #start a new one with 6 cores (-c 6) and 2GB RAM (--mem 2G)
 ```
 
 Once you are on the compute node, check what job(s) you have running and what resources you are using.
 
 ```bash
-$ O2squeue
+$ squeue
 ```
 
 Now that we are in a new interactive session with the appropriate resources, we will need to load the module again for this new session.
 
 ```bash
-$ module load fastqc/0.11.3  #reload the module for the new (6-core) interactive session
+$ module load fastqc/0.11.8-fasrc01  #reload the module for the new (6-core) interactive session
 ```
 
 We will also move into the `raw_data` directory (remember we are on a new compute node now):
