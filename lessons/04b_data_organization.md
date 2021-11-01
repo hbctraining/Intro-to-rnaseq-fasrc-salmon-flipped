@@ -1,6 +1,6 @@
 ---
 title: Data Management and Project Organization - In-class
-author: Mary Piper, Meeta Mistry, Michael Steinbaugh, Radhika Khetani, Jihe Liu
+author: Mary Piper, Meeta Mistry, Michael Steinbaugh, Radhika Khetani, Jihe Liu, Will Gammerdinger
 date: November 9, 2020
 duration: 35
 ---
@@ -42,7 +42,7 @@ Some relevant metadata for our dataset is provided below:
 
 ## Implementing data management best practices
 
-In a [previous lesson](../04a_data_organization.md) we describe the data lifecycle and the **different aspects to consider when working on your own projects**. Here, we implement some of those strategies to get ourselves setup before we begin with any analysis.
+In a [previous lesson](https://hbctraining.github.io/Intro-to-rnaseq-hpc-salmon-flipped/lessons/04a_data_organization.html) we describe the data lifecycle and the **different aspects to consider when working on your own projects**. Here, we implement some of those strategies to get ourselves setup before we begin with any analysis.
 
 <p align="center">
 <img src="../img/data-lifecycle-base.png" width="500">
@@ -59,7 +59,7 @@ $ cd
 $ pwd
 ```
 
-This should return `/home/rc_training`. Create the directory `rnaseq` and move into it.
+This should return `/n/homeXX/USER`. Create the directory `rnaseq` and move into it.
 
 ```bash
 $ mkdir rnaseq
@@ -134,13 +134,13 @@ scripts:
 
 ### Obtaining data
 
-Let's populate the `rnaseq/` project with some data. The FASTQ files are located on the O2 cluster in the `/n/groups` space. Copy them over from the path shown below, into your `raw_data` directory:
+Let's populate the `rnaseq/` project with some data. The FASTQ files are located on the FAS-RC cluster in the `/n/holylfs05/LABS/hsph_bioinfo` space. Copy them over from the path shown below, into your `raw_data` directory:
 
 ```bash
-$ cp /n/groups/hbctraining/unix_lesson/raw_fastq/*.fq ~/rnaseq/raw_data/
+$ cp /n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/unix_lesson/raw_fastq/*.fq ~/rnaseq/raw_data/
 ```
 
-> **NOTE**: When obtaining data from your sequencing facility, the data will not be stored on O2 and so a simple copy command (`cp`) will not suffice. The raw sequence data will likely be located on another remote computer/server that is hosted by the sequencing facility and you will be given login credentials to access it. To copy it over you can use commands like `rsync`, `wget` or `scp`. These are all commands that can help securely copy the data over to the appropriate location on O2. We have some information [linked here](more_bash_cluster.md#copying-files-to-and-from-the-cluster-) if you would like to learn more. 
+> **NOTE**: When obtaining data from your sequencing facility, the data will not be stored on FAS-RC and so a simple copy command (`cp`) will not suffice. The raw sequence data will likely be located on another remote computer/server that is hosted by the sequencing facility and you will be given login credentials to access it. To copy it over you can use commands like `rsync`, `wget` or `scp`. These are all commands that can help securely copy the data over to the appropriate location on FAS-RC. We have some information [linked here](more_bash_cluster.md#copying-files-to-and-from-the-cluster-) if you would like to learn more. 
 
 Now the structure of `rnaseq/` should look like this:
 
