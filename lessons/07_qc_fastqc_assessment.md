@@ -1,7 +1,7 @@
 ---
 title: "Quality control: Assessing FASTQC results"
-author: "Mary Piper, Radhika Khetani"
-date: Wednesday, September 5, 2018
+author: "Mary Piper, Radhika Khetani, Will Gammerdinger"
+date: Tuesday, November 16, 2021
 duration: 45 minutes
 ---
 
@@ -40,27 +40,51 @@ Open up *FileZilla*, and click on the File tab. Choose 'Site Manager'.
 
 Within the 'Site Manager' window, do the following: 
 
-1. Click on 'New Site', and name it something intuitive (e.g. O2)
-2. Host: transfer.rc.hms.harvard.edu 
-3. Protocol: SFTP - SSH File Transfer Protocol
-4. Logon Type: Normal
-5. User: Username (i.e rc_trainingXX) 
-6. Password: O2 password
-7. Click 'Connect'
-
-> NOTE: While using the temporary training accounts on the O2 cluster, two-factor authentication ***IS NOT*** required. However, if you explore this lesson when using your personal account, two-factor authentication ***IS*** required. 
-> 
-> In order to connect your laptop using FileZilla to the O2 cluster, follow steps 1-7 as outlined above. Once you have clicked 'Connect', you will receive a Duo push notification (but no indication in Filezilla) which you must approve within the short time window. Following Duo approval, FileZilla will connect to the O2 cluster.
+1. Click on 'New Site', and name it something intuitive (e.g. FAS_RC)
+2. Protocol: SFTP - SSH File Transfer Protocol
+3. Host: login.rc.fas.harvard.edu
+4. Logon Type: Interactive (This step should remove your password box)
+5. User: Username (i.e jharvard) 
 
 <p align="center">
-<img src="../img/filezilla_login.png" width="500">
+<img src="https://github.com/hbctraining/Intro-to-rnaseq-fasrc-salmon-flipped/blob/master/img/FileZilla_General_tab.png" width="500">
 </p>
+
+6. Click on the 'Advanced' tab
+7. Set your 'Default local directory' to be the directory/folder on your local computer you would like to have as the default when opening up a connection with FAS-RC through FileZilla.
+
+<p align="center">
+<img src="https://github.com/hbctraining/Intro-to-rnaseq-fasrc-salmon-flipped/blob/master/img/FileZilla_Advanced_tab.png" width="500">
+</p>
+
+8. Click on the 'Transfer settings' Tab and check the box for 'Limit the number of simultaneous connections' and set the 'Maximum number of connections' to '1'.
+9. Click 'Connect' 
+
+<p align="center">
+<img src="https://github.com/hbctraining/Intro-to-rnaseq-fasrc-salmon-flipped/blob/master/img/FileZilla_Transfer_settings_tab.png" width="500">
+</p>
+
+10. You will be prompted with a pop-up for your FAS-RC password.
+11. Click 'OK'
+
+<p align="center">
+<img src="https://github.com/hbctraining/Intro-to-rnaseq-fasrc-salmon-flipped/blob/master/img/FileZilla_Password.png" width="400">
+</p>
+
+12. After a successful password attempt, you will be prompted with a second, similar looking pop-up asking for your 'Verification code' which can be found using your 2-factor authentication device.
+13. Click 'OK'
+
+<p align="center">
+<img src="https://github.com/hbctraining/Intro-to-rnaseq-fasrc-salmon-flipped/blob/master/img/FileZilla_Verification_code.png" width="400">
+</p>
+
+> Note: If you require troubleshooting, [here](https://docs.rc.fas.harvard.edu/kb/sftp-file-transfer/) is an additional resource for connecting to FAS-RC using FileZilla. 
 
 ### Filezilla Interface
 
-You will see messages printed in the message window in the top window pane, giving a you an indication of whether or not you have successfully connected to O2. Next, if this if your first time using Filezilla we recommend that you take some time to get familiar withe the basics of the interface. This [tutorial](https://wiki.filezilla-project.org/FileZilla_Client_Tutorial_(en)) is a helpful resource.
+You will see messages printed in the message window in the top window pane, giving a you an indication of whether or not you have successfully connected to FAS-RC. Next, if this if your first time using Filezilla we recommend that you take some time to get familiar withe the basics of the interface. This [tutorial](https://wiki.filezilla-project.org/FileZilla_Client_Tutorial_(en)) is a helpful resource.
 
-You will see two panels in the interface. On the left hand side you will see your the files in your laptop and on the right hand side you have your home directory on O2. Both panels have a directory tree at the top and a detailed listing of the selected directory's contents underneath. In the right hand panel, navigate to where the HTML files are located on O2 `~/rnaseq/results/fastqc/`. Then decide where you would like to copy those files to on your computer and move to that directory on the left hand panel.
+You will see two panels in the interface. On the left hand side you will see your the files in your laptop and on the right hand side you have your home directory on FAS-RC. Both panels have a directory tree at the top and a detailed listing of the selected directory's contents underneath. In the right hand panel, navigate to where the HTML files are located on FAS-RC `~/rnaseq/results/fastqc/`. Then decide where you would like to copy those files to on your computer and move to that directory on the left hand panel.
 
 Once you have found the html output for `Mov10_oe1` **copy it over** by double clicking it or drag it over to right hand side panel. Once you have the HTML file copied over to your laptop, you can leave the Filezilla interface. You can then locate the HTML file on your computer and open it up in a browser. 
 
