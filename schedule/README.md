@@ -26,16 +26,16 @@
  * [Quality Control of Sequence Data: Running FASTQC on multiple samples](../lessons/06_qc_running_fastqc_sbatch.md)
  * [Quality Control of Sequence Data: Evaluating FASTQC reports](../lessons/07_qc_fastqc_assessment.md)
 
-    > **NOTE:** To run through the code above, you will need to be **logged into O2** and **working on a compute node** (i.e. your command prompt should have the word `compute` in it).
-    > 1. Log in using `ssh rc_trainingXX@o2.hms.harvard.edu` and enter your password (replace the "XX" in the username with the number you were assigned in class). 
-    > 2. Once you are on the login node, use `srun --pty -p interactive -t 0-2:30 --mem 1G /bin/bash` to get on a compute node or as specified in the lesson.
-    > 3. Proceed only once your command prompt has the word `compute` in it.
+    > **NOTE:** To run through the code above, you will need to be **logged into FAS-RC** and **working on a compute node** (i.e. your command prompt should have the word `compute` in it).
+    > 1. Log in using `ssh username@login.rc.fas.harvard.edu` and enter your password (replace username with your username). 
+    > 2. Once you are on the login node, use `salloc -p test -t 0-2:30 --mem 8G` to get on a compute node or as specified in the lesson.
+    > 3. Proceed only once your command prompt does not have the word `login` in it.
     > 4. If you log out between lessons (using the `exit` command twice), please follow points 1. and 2. above to log back in and get on a compute node when you restart with the self learning.
 
 2. **Complete the exercises**:
    * Each lesson above contain exercises; please go through each of them.
    * **Copy over** your code from the exercises into a text file. 
-   * **Upload the saved text file** to [Dropbox](https://www.dropbox.com/request/NvNnmMFyRDwHEhj5GB6e) the **day before the next class**.
+   * **Upload the saved text file** to [Dropbox](https://www.dropbox.com/request/j5oKCIOOw1NqpQ7ZeKqq) the **day before the next class**.
    
 ### Questions?
 * ***If you get stuck due to an error*** while runnning code in the lesson, [email us](mailto:hbctraining@hsph.harvard.edu) 
@@ -60,16 +60,16 @@
  * [QC with Alignment Data](../lessons/10_QC_Qualimap.md)
  * [Documenting Steps in the Workflow with MultiQC](../lessons/11_multiQC.md)
 
-     > **NOTE:** To run through the code above, you will need to be **logged into O2** and **working on a compute node** (i.e. your command prompt should have the word `compute` in it).
-     > 1. Log in using `ssh rc_trainingXX@o2.hms.harvard.edu` and enter your password (replace the "XX" in the username with the number you were assigned in class). 
-     > 2. Once you are on the login node, use `srun --pty -p interactive -t 0-2:30 --mem 8G /bin/bash` to get on a compute node or as specified in the lesson.
-     > 3. Proceed only once your command prompt has the word `compute` in it.
+     > **NOTE:** To run through the code above, you will need to be **logged into FAS-RC** and **working on a compute node** (i.e. your command prompt should have the word `compute` in it).
+     > 1. Log in using `ssh username@login.rc.fas.harvard.edu` and enter your password (replace username with your username).
+     > 2. Once you are on the login node, use `salloc -p test -t 0-2:30 --mem 8G` to get on a compute node or as specified in the lesson.
+     > 3. Proceed only once your command prompt does not have the word `login` in it.
      > 4. If you log out between lessons (using the `exit` command twice), please follow points 1. and 2. above to log back in and get on a compute node when you restart with the self learning.
 
 2. **Complete the exercises**:
    * Each lesson above contain exercises; please go through each of them.
    * **Copy over** your code from the exercises into a text file. 
-   * **Upload the saved text file** to [Dropbox](https://www.dropbox.com/request/QNYaxVypFyf0HBaDP0aW) the **day before the next class**.
+   * **Upload the saved text file** to [Dropbox](https://www.dropbox.com/request/SRVvXQ93t0emw3iqza9O) the **day before the next class**.
    
 ### Questions?
 * ***If you get stuck due to an error*** while runnning code in the lesson, [email us](mailto:hbctraining@hsph.harvard.edu) 
