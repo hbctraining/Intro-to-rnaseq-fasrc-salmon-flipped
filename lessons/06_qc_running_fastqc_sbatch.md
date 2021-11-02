@@ -1,7 +1,7 @@
 ---
 title: "Quality control using FASTQC - script running"
-author: "Mary Piper, Radhika Khetani, Meeta Mistry, Jihe Liu"
-date: Friday, October 30, 2020
+author: "Mary Piper, Radhika Khetani, Meeta Mistry, Jihe Liu, Will Gammerdinger"
+date: Tuesday, November 16, 2021
 duration: 45 minutes
 ---
 
@@ -13,9 +13,9 @@ duration: 45 minutes
 
 
 ### Performing quality assessment using job submission scripts
-So far in our FASTQC analysis, we have been directly submitting commands to O2 using an interactive session (ie. `srun --pty -c 6 -p interactive -t 0-12:00 --mem 6G --reservation=HBC /bin/bash`). However, there are many [more partitions available on O2](https://wiki.rc.hms.harvard.edu/display/O2/Using+Slurm+Basic#UsingSlurmBasic-Partitions(akaQueues)) than just the interactive partition. We can submit a command or series of commands to these partitions using job submission scripts. 
+So far in our FASTQC analysis, we have been directly submitting commands to FAS-RC using an interactive session (ie. `salloc -p test -t 0-6:00 --mem 6G -c 6`). However, there are many [more partitions available on FAS-RC](https://docs.rc.fas.harvard.edu/kb/running-jobs/#Slurm_partitions) than just the interactive partition. We can submit a command or series of commands to these partitions using job submission scripts. 
 
-**Job submission scripts** for O2 are just regular shell scripts, but contain the Slurm **options/directives** for our job submission. These directives define the various resources we are requesting for our job (i.e *number of cores, name of partition, runtime limit* )
+**Job submission scripts** for FAS-RC are just regular shell scripts, but contain the Slurm **options/directives** for our job submission. These directives define the various resources we are requesting for our job (i.e *number of cores, name of partition, runtime limit* )
 
 Submission of the script using the `sbatch` command allows Slurm to run your job when its your turn. Let's create a job submission script to automate what we have done in [previous lesson](05_qc_running_fastqc_interactively.md).
 
@@ -41,17 +41,17 @@ Once in the vim editor, click `i` to enter INSERT mode. The first thing we need 
 
 Following the shebang line are the Slurm directives. For the script to run, we need to include options for **queue/partition (-p) and runtime limit (-t)**. To specify our options, we precede the option with `#SBATCH`. Some key resources to specify are:
 
-|Resource|Flag|Description|
+|Resource|Option|Description|
 |:----:|:----:|:----:|
 |partition|-p|partition name|
 |time|-t|hours:minutes run limit, after which the job will be killed|
 |core|-c|number of cores requested -- this needs to be greater than or equal to the number of cores you plan to use to run your job|
-|memory|--mem|memory limit per compute node for the job|
+|memory|-\-mem|memory limit per compute node for the job|
 
 Let's specify those options as follows:
 
 ```bash
-#SBATCH -p short 		# partition name
+#SBATCH -p shared 		# partition name
 #SBATCH -t 0-2:00 		# time limit
 #SBATCH -c 6 		# number of cores
 #SBATCH --mem 6G   # requested memory
@@ -67,7 +67,7 @@ Now in the body of the script, we can include any commands we want to run. In th
 cd ~/rnaseq/raw_data
 
 ## Load modules required for script commands
-module load fastqc/0.11.3
+module load fastqc/0.11.8-fasrc01
 
 ## Run FASTQC
 fastqc -o ~/rnaseq/results/fastqc/ -t 6 *.fq
@@ -84,12 +84,12 @@ $ sbatch mov10_fastqc.run
 You should immediately see a prompt saying `Submitted batch job JobID`. Your job is assigned with that unique identifier `JobID`. You can check on the status of your job with:
 
 ```bash
-$ O2sacct
+$ sacct
 ```
 
 Look for the row that corresponds to your `JobID`. The third column indicates the state of your job. Possible states include `PENDING`, `RUNNING`, `COMPLETED`. Once your job state is `RUNNING`, you should expect it to finish in less than two minutes. When the state is `COMPLETED`, that means your job is finished.
 
-> **NOTE:** Other helpful options for checking/managing jobs are available as a [cheatsheet](https://wiki.rc.hms.harvard.edu/display/O2/O2+Command+CheatSheet) from HMS-RC.
+> **NOTE:** Other helpful options for checking/managing jobs are available as a [cheatsheet](https://docs.rc.fas.harvard.edu/kb/running-jobs/#Monitoring_job_progress_with_squeue_and_sacct) from FAS-RC.
 
 Check out the output files in your directory:
 ```bash
