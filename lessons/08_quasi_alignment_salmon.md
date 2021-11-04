@@ -1,15 +1,15 @@
 ---
 title: "Quantification of transcript abundance using Salmon"
-author: "Mary Piper, Meeta Mistry, Radhika Khetani, Jihe Liu"
-date: "Friday, October 8, 2021"
+author: "Mary Piper, Meeta Mistry, Radhika Khetani, Jihe Liu, Will Gammerdinger"
+date: "Friday, November 19, 2021"
 ---
 
 Approximate time: 1.25 hours
 
 ## Learning Objectives
 
-* Explore using lightweight algorithms to quantify reads to abundance estimates
-* Understand how Salmon performs quasi-mapping and transcript abundance estimation
+* Use lightweight algorithms to quantify reads to abundance estimates
+* Explain how Salmon performs quasi-mapping and transcript abundance estimation
 
 ## Lightweight alignment and quantification of gene expression
 
@@ -21,7 +21,7 @@ Now that we have explored the quality of our raw reads, we can move on to quanti
 
 Tools that have been found to be most accurate for this step in the analysis are referred to as lightweight alignment tools, which include [Kallisto](https://pachterlab.github.io/kallisto/about), [Sailfish](http://www.nature.com/nbt/journal/v32/n5/full/nbt.2862.html) and [Salmon](https://combine-lab.github.io/salmon/); each working slightly different from one another. We will focus on Salmon for this workshop, which is the successor of Sailfish. However, Kallisto is an equally good choice with similar performance metrics for speed and accuracy.
 
-Common to all of these tools is that **base-to-base alignment of the reads is avoided**, which is the time-consuming step of older splice-aware alignment tools such as STAR and HISAT2. These lightweight alignment tools **provide quantification estimates much faster than older tools** (typically more than 20 times faster) with **improvements in accuracy** [[1](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-015-0734-x)]. These transcript expression estimates, often referred to as 'pseudocounts' or 'abundance estimates', can be aggregated to the gene level for use with differential gene expression tools like [DESeq2](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html) or the estimates can be used directly for isoform-level differential expression using a tool like [Sleuth](http://www.biorxiv.org/content/biorxiv/early/2016/06/10/058164.full.pdf). 
+Common to all of these tools is that **base-to-base alignment of the reads is avoided**, which is the time-consuming step of older splice-aware alignment tools such as STAR and HISAT2. These lightweight alignment tools **provide quantification estimates much faster than older tools** (typically more than 20 times faster) with **improvements in accuracy** [[1](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-015-0734-x)]. These transcript expression estimates, often referred to as 'pseudocounts' or 'abundance estimates', can be aggregated to the gene level for use with differential gene expression tools like [DESeq2](http://bioconductor.org/packages/devel/bioc/vignettes/DESeq2/inst/doc/DESeq2.html) or the estimates can be used directly for isoform-level differential expression using a tool like [Sleuth](https://www.nature.com/articles/nmeth.4324%7B). 
 
 ## Salmon
 
@@ -45,14 +45,14 @@ The Salmon index has two components:
 - a suffix array (SA) of the reference transcriptome
 - a hash table to map each transcript in the reference transcriptome to it's location in the SA (is not required, but improves the speed of mapping dramatically)
 
-To create the index, we use the `salmon index` command as detailed in the code below. However, **we are not going to run this code in class** as it can take a long time minutes to run and it requires a large amount of memory. Instead, we will have you point to an index that we have generated for you located at `/n/groups/hbctraining/rna-seq_2019_02/reference_data/salmon.ensembl38.idx.09-06-2019`.
+To create the index, we use the `salmon index` command as detailed in the code below. However, **we are not going to run this code in class** as it can take a long time to run and it requires a large amount of memory. Instead, we will have you point to an index that we have generated for you located at `/n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/indicies/salmon_index`.
 
 Below is the code to run the indexing step, and a description of the parameters:
 
 ```bash
 ## DO NOT RUN THIS CODE
 $ salmon index \
--t /n/groups/hbctraining/rna-seq_2019_02/reference_data/Homo_sapiens.GRCh38.cdna.all.fa \
+-t /n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/reference_data/Homo_sapiens.GRCh38.cdna.all.fa \
 -i salmon_index \
 -k 31
 ```	
@@ -109,7 +109,7 @@ The quasi-mapping approach estimates where the reads best map to on the transcri
 
 - **Step 2: Abundance quantification**
 
-	After determining the best mapping for each read/fragment using the quasi-mapping method, salmon will generate the final transcript abundance estimates after modeling sample-specific parameters and biases. Note that reads/fragments that map equally well to more than one transcript will have the count divided between all of the mappings; thereby not losing information for the various gene isoforms.
+	After determining the best mapping for each read/fragment using the quasi-mapping method, Salmon will generate the final transcript abundance estimates after modeling sample-specific parameters and biases. Note that reads/fragments that map equally well to more than one transcript will have the count divided between all of the mappings; thereby not losing information for the various gene isoforms.
 	
 	Instead of only counting the number of reads/fragments mapping to each of the transcripts, Salmon uses multiple complex modeling approaches, like Expectation Maximization (EM) to estimate the transcript abundances while correcting the abundance estimates for any sample-specific biases/factors [[4](https://www.nature.com/articles/nmeth.4197)]. Sample-specific bias models are helpful when needing to account for known biases present in RNA-Seq data including:
 
@@ -124,28 +124,28 @@ The quasi-mapping approach estimates where the reads best map to on the transcri
 Now we know a little bit about how it works, let's map our data using Salmon. We can begin by opening up an interactive session and creating a new directory in our `results` folder for the Salmon output:
 
 ```bash
-$ srun --pty -p interactive -t 0-3:00 --mem 8G --reservation=HBC2 /bin/bash
+$ salloc -p test -t 0-3:00 --mem 8G
 
 $ mkdir ~/rnaseq/results/salmon
 
 $ cd ~/rnaseq/results/salmon
 ```   
 
-Salmon is available as a module on O2. To find out more on how to use this module we can use `module spider`:
+Salmon is available as a module on FAS-RC. To find out more on how to use this module we can use `module spider`:
 
 ```bash
-$ module spider salmon/1.4.0
+$ module spider salmon/0.12.0-fasrc01
 ```
 
 We see that there are no dependency modules and we can simply just load Salmon and get started.
 
 ```bash
-$ module load salmon/1.4.0
+$ module load salmon/0.12.0-fasrc01
 ```
 
 To perform the quasi-mapping and transcript abundance quantification, we will use the `salmon quant` command. The parameters for the command are described below (more information on parameters can be found [here](http://salmon.readthedocs.io/en/latest/salmon.html#id5)):
 
-* `-i`: specify the location of the index directory; for us it is `/n/groups/hbctraining/rna-seq_2019_02/reference_data/salmon_index`
+* `-i`: specify the location of the index directory; for us it is `/n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/indicies/salmon_index`
 * `-l A`: Format string describing the library. `A` will automatically infer the most likely library type (more info available [here](http://salmon.readthedocs.io/en/latest/salmon.html#what-s-this-libtype))
 * `-r`: sample file
 * `-o`: output quantification file name
@@ -188,23 +188,22 @@ There is a logs directory, which contains all of the text that was printed to sc
 
 ```bash
 Name    Length  EffectiveLength TPM     NumReads
-ENST00000632684.1       12      3.00168 0       0
-ENST00000434970.2       9       2.81792 0       0
-ENST00000448914.1       13      3.04008 0       0
-ENST00000415118.1       8       2.72193 0       0
-ENST00000631435.1       12      3.00168 0       0
-ENST00000390567.1       20      3.18453 0       0
-ENST00000439842.1       11      2.95387 0       0
-
+ENST00000632684.1	12	3.000	0.000000	0.000
+ENST00000434970.2	9	2.000	0.000000	0.000
+ENST00000448914.1	13	3.000	0.000000	0.000
+ENST00000415118.1	8	2.000	0.000000	0.000
+ENST00000390583.1	31	3.000	0.000000	0.000
+ENST00000390577.1	37	3.000	0.000000	0.000
+ENST00000451044.1	17	3.000	0.000000	0.000
 ....
 ```
 
 *  The first two columns are self-explanatory, the **name** of the transcript and the **length of the transcript** in base pairs (bp). 
 *  The **effective length** represents the various factors that effect the length of transcript (i.e degradation, technical limitations of the sequencing platform)
-* Salmon outputs 'pseudocounts' or 'abundance estimates' which predict the relative abundance of different isoforms in the form of three possible metrics (FPKM, RPKM, and TPM). **TPM (transcripts per million)** is a commonly used normalization method as described in [[1]](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2820677/) and is computed based on the effective length of the transcript. **We do NOT recommend FPKM or RPKM**.
+* Salmon outputs 'pseudocounts' or 'abundance estimates' which predict the relative abundance of different isoforms in the form of three possible metrics (FPKM, RPKM, and TPM). **TPM (transcripts per million)** is a commonly used normalization method as described in [[1]](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC2820677/) and is computed based on the effective length of the transcript. **We do NOT recommend FPKM or RPKM**. A video explaining the differences between FPKM, RPKM and TPM can be found [here](https://www.youtube.com/watch?v=TTUrtCY2k-w).
 * Estimated **number of reads**, which is the estimate of the number of reads drawn from this transcript given the transcript’s relative abundance and length)
 
-> **NOTE:** The effective gene length in a sample is the average of the transcript lengths after weighting for their relative expression. You may see effective lengths that are larger than the physical length. The interpretation would be that in this case, given the sequence composition of these transcripts (including both the sequence-specific and fragment GC biases), you'd expect a priori to sample more reads from them — thus they have a longer estimated effective length.
+> **NOTE:** The effective gene length in a sample is the average of the transcript lengths after weighting for their relative expression. You may see effective lengths that are larger than the physical length. The interpretation would be that in this case, given the sequence composition of these transcripts (including both the sequence-specific and fragment GC biases), you'd expect *a priori* to sample more reads from them — thus they have a longer estimated effective length.
 
 This file is used as input for downstream analyses including differential gene expression analysis. For each file that you run through Salmon, you will get a correpsonding `quant.sf` file. Downstream tools like [`tximport`](https://bioconductor.org/packages/release/bioc/html/tximport.html) take these files and aggregate them to obtain expression matrices for your dataset. 
 
