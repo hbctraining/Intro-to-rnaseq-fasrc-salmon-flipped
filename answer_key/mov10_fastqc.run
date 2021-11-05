@@ -1,0 +1,21 @@
+#!/bin/bash
+# This script was written by John Harvard on November 5, 2021 at Harvard University.
+# The goal of this script is to run six files serially through FASTQC
+
+#SBATCH -p shared 		# partition name
+#SBATCH -t 0-2:00 		# time limit
+#SBATCH -c 6 		# number of cores
+#SBATCH --mem 6G   # requested memory
+#SBATCH --job-name rnaseq_mov10_fastqc 		# Job name
+#SBATCH -o %j.out			# File to which standard output will be written
+#SBATCH -e %j.err 		# File to which standard error will be#!/bin/bash
+
+## Change directories to where the fastq files are located
+cd ~/rnaseq/raw_data
+
+## Load modules required for script commands
+module load fastqc/0.11.8-fasrc01
+
+## Run FASTQC
+fastqc -o ~/rnaseq/results/fastqc/ -t 6 *.fq
+
