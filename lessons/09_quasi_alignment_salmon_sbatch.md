@@ -1,7 +1,7 @@
 ---
 title: "Quantification of transcript abundance using Salmon"
-author: "Mary Piper, Meeta Mistry, Radhika Khetani, Jihe Liu"
-date: "November 16, 2020
+author: "Mary Piper, Meeta Mistry, Radhika Khetani, Jihe Liu, Will Gammerdinger"
+date: "Friday, November 19, 2021
 ---
 
 Approximate time: 30 minutes
@@ -19,9 +19,10 @@ Rather than typing out the Salmon command six times, we will use **a for loop to
 
 ### Create a job submission script to run Salmon in serial
 
-Let's start by opening up a text file in `vim`:
+Let's start by moving to our `scripts` directory within 'rnaseq' and opening up a text file in `vim`:
 
 ```
+cd ~/rnaseq/scripts/
 $ vim salmon_all_samples.sbatch
 ```
 
@@ -29,7 +30,6 @@ Begin the script starting with the **shebang line**.
 
 ```bash
 #!/bin/bash
-
 ```
 ***
 
@@ -39,13 +39,15 @@ Begin the script starting with the **shebang line**.
 
 > **NOTE:** Helpful resources include:
 > * This [linked lesson](03_working_on_HPC.md#requesting-resources-from-slurm) 
-> * [HMS-RC's O2 Wiki](https://wiki.rc.hms.harvard.edu/display/O2/Using+Slurm+Basic) 
+> * [FAS-RC's Help](https://docs.rc.fas.harvard.edu/kb/running-jobs/#Submitting_batch_jobs_using_the_sbatch_command) 
 
-* Your job will use the `short` partition
+* Your job will use the `shared` partition
 * Request 6 cores to take advantage of Salmon's multi-threading capabilities
 * Request 12 hours of runtime
 * Request 8G of memory 
 * Give your job the name `salmon_in_serial`
+* A standard output file
+* A standard error file
 * Add an email and request to be notified when the job is complete
 
 ***
@@ -75,10 +77,10 @@ do
 samplename=`basename $fq .fq`
 
 # run salmon
-salmon quant -i /n/groups/hbctraining/rna-seq_2019_02/reference_data/salmon_index \
+salmon quant -i /n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/indicies/salmon_index \
  -l A \
  -r $fq \
- -o ${samplename}_salmon \
+ -o ${samplename}.salmon \
  --seqBias \
  --useVBOpt \
  --validateMappings
@@ -86,7 +88,7 @@ salmon quant -i /n/groups/hbctraining/rna-seq_2019_02/reference_data/salmon_inde
 done
 ```
 
-Note, that our for loop is iterating over all FASTQ files in the `raw_fastq` directory. For each file, a prefix is generated to name the output file and then the Salmon command is run with the same parameters as used in the single sample run.
+Note that our for loop is iterating over all FASTQ files in the `raw_fastq` directory. For each file, a prefix is generated to name the output file and then the Salmon command is run with the same parameters as used in the single sample run.
 
 ***
 
