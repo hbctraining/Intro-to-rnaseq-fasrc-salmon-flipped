@@ -1,7 +1,7 @@
 ---
 title: "Quantification of transcript abundance using Salmon"
 author: "Mary Piper, Meeta Mistry, Radhika Khetani, Jihe Liu, Will Gammerdinger"
-date: "Friday, November 19, 2021
+date: "Friday, November 19, 2021"
 ---
 
 Approximate time: 30 minutes
