@@ -201,30 +201,29 @@ Some key LMOD commands are listed below:
 
 ***
 
-## Filesystems on O2
+## Filesystems on FAS-RC
 
 <p align="center">
 <img src="../img/O2_primary-storage.png" width="600">
 </p>
 
 * Storage on HPC systems is organized differently than on your personal machine.
-* Each node on the cluster does not have storage; instead, it is on disks bundled together externally.
+* Each node on the cluster has minimal local storage; instead, most of it is on disks bundled together externally.
 * Storage filesystems can be quite complex, with large spaces dedicated to a pre-defined purpose.
 * Filesystems are accessed over the internal network by all the nodes on the cluster.
-* There are 3 major groups on the O2 cluster, each with their features and constraints:
-   1. `/n/data1`, `/n/data2`, `/n/groups` - Large datasets are stored in these parent directories (see features/constraints in the image above).
-   2. `/home` - the home directories of all users are under this parent directory (see features/constraints in the image above).
-   3. `/n/scratch3` - scratch space for temporary storage.
+* There are 3 major groups on the FAS-RC cluster, each with their features and constraints:
+   1. Shared lab storage is located in various directories, depending on your lab and the storage tier your lab may have purchased. (e.g. `/n/name_lab`, `/n/holylfs[02-05]`, `/n/boslfs[02-05]`, etc)
+   2. `/home[00-15]` - the home directories of all users are under these parent directories.
+   3. `/n/holyscratch01` - scratch space for temporary storage.
 
-**[Please find more information about storage on O2 by clicking here.](https://it.hms.harvard.edu/our-services/research-computing/services/storage)**
+**[Please find more information about storage on FAS-RC by clicking here.](https://www.rc.fas.harvard.edu/services/data-storage/)**
 
-### More about `/n/scratch3`
+### More about `/n/holyscratch01`
 
 * It is for data only needed temporarily during analyses.
-* Each user can use up to 10 TB and 1 million files/directories.
-* Files not accessed for 30 days are automatically deleted.
+* Each user can use up to 50 TB and 1 million files/directories.
+* Files older than 90 days are automatically deleted.
 * **No backups!**
-* You can create your own folder using this command `/n/cluster/bin/scratch3_create.sh`
 
 ***
 *This lesson has been developed by members of the teaching team at the [Harvard Chan Bioinformatics Core (HBC)](http://bioinformatics.sph.harvard.edu/). These are open access materials distributed under the terms of the [Creative Commons Attribution license](https://creativecommons.org/licenses/by/4.0/) (CC BY 4.0), which permits unrestricted use, distribution, and reproduction in any medium, provided the original author and source are credited.*
