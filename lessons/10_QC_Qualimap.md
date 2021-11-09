@@ -1,15 +1,15 @@
 ---
 title: "QC with STAR and Qualimap"
-author: "Meeta Mistry, Mary Piper, Radhika Khetani, Jihe Liu"
-date: Thursday November 19, 2020
+author: "Meeta Mistry, Mary Piper, Radhika Khetani, Jihe Liu, Will Gammerdinger"
+date: Friday, November 19, 2021
 ---
 
 Approximate time: 50 minutes
 
 ## Learning Objectives:
 
-* Running Qualimap to compute metrics on alignment files
-* Running an alignment tool to generate input for Qualimap (BAM files)
+* Run Qualimap to compute metrics on alignment files
+* Run an alignment tool to generate input for Qualimap (BAM files)
 
 
 ## Quality Control
@@ -48,7 +48,7 @@ To determine where on the human genome our reads originated from, we will align 
 To get started with this lesson, start an interactive session with 6 cores and 8G of memory:
 
 ```bash
-$ srun --pty -p interactive -t 0-12:00 -c 6 --mem 8G /bin/bash	
+$ salloc -p test -t 0-3:00 --mem 8G -c 6
 ```
 
 You should have a directory tree setup similar to that shown below. It is best practice to have all files you intend on using for your workflow present within the same directory. 
@@ -71,7 +71,7 @@ rnaseq
 To use the STAR aligner, load the module: 
 
 ```bash
-$ module load gcc/6.2.0 star/2.7.0a
+$ module load STAR/2.7.0e-fasrc01
 ```
 
 Similar to Salmon, aligning reads using STAR is **a two step process**:   
@@ -79,15 +79,9 @@ Similar to Salmon, aligning reads using STAR is **a two step process**:
 1. Create a genome index 
 2. Map reads to the genome
 
-> A quick note on shared databases for human and other commonly used model organisms. The O2 cluster has a designated directory at `/n/groups/shared_databases/` in which there are files that can be accessed by any user. These files contain, but are not limited to, genome indices for various tools, reference sequences, tool specific data, and data from public databases, such as NCBI and PDB. So when using a tool that requires a reference of sorts, it is worth taking a quick look here because chances are it's already been taken care of for you. 
->
->```bash
-> $ ls -l /n/groups/shared_databases/igenome/
->```
-
 #### Creating a genome index
 
-For this workshop we have generated the genome indices for you, so that we don't get held up waiting on the generation of the indices (it takes a while and requires a lot of memory). The index can be found in the `/n/groups/hbctraining/intro_rnaseq_hpc/reference_data_ensembl38/ensembl38_STAR_index/` directory. 
+For this workshop we have generated the genome indices for you, so that we don't get held up waiting on the generation of the indices (it takes a while and requires a lot of memory). The index can be found in the `/n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/indicies/ensembl38_STAR_index/` directory. 
 
 The command to create an index can be found in the job submission script we have linked [here](../scripts/star_genome_index.run). 
 
@@ -124,7 +118,7 @@ Listed below are additional parameters that we will use in our command:
 The full command is provided below for you to copy paste into your terminal. If you want to manually enter the command, it is advisable to first type out the full command in a text editor (i.e. [Sublime Text](http://www.sublimetext.com/) or [Notepad++](https://notepad-plus-plus.org/)) on your local machine and then copy paste into the terminal. This will make it easier to catch typos and make appropriate changes. 
 
 ```bash
-$ STAR --genomeDir /n/groups/hbctraining/intro_rnaseq_hpc/reference_data_ensembl38/ensembl38_STAR_index/ \
+$ STAR --genomeDir /n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/indicies/ensembl38_STAR_index/  \
 --runThreadN 6 \
 --readFilesIn Mov10_oe_1.subset.fq \
 --outFileNamePrefix ../results/STAR/Mov10_oe_1_ \
@@ -173,11 +167,14 @@ By default, Qualimap will try to open a GUI to run Qualimap, so we need to run t
 $ unset DISPLAY
 ```
 
-We also need to load the qualimap module:
+We also need to load the Qualimap module. Unfortunately, a Qualimap module is not currently installed on the server, but we have installed it on a shared space that you can access. In order to access easily use this software we will need to add them to your path. Copy and paste this command into your terminal:
 
 ```bash
-$ module load java/jdk-1.8u112 qualimap/2.2.1
+export PATH=$PATH:/n/holylfs05/LABS/hsph_bioinfo/Everyone/holylfs/bcbio_nextgen/bin:/n/holylfs05/LABS/hsph_bioinfo/Everyone/holylfs/bcbio_nextgen/anaconda/bin
 ```
+
+> Note: If you log off, this PATH information will be forgotten and you will need to re-enter the previous command if you wish to use Qualimap in the future.
+
 
 Now we are ready to run Qualimap on our BAM file! There are different tools or modules available through Qualimap, and the [documentation website](http://qualimap.bioinfo.cipf.es/doc_html/command_line.html) details the tools and options available. We are interested in the `rnaseq` tool. To see the arguments available for this tool we can search the help:
 
@@ -200,7 +197,7 @@ $ qualimap rnaseq \
 -a proportional \
 -bam results/STAR/Mov10_oe_1_Aligned.sortedByCoord.out.bam \
 -p strand-specific-reverse \
--gtf /n/groups/hbctraining/intro_rnaseq_hpc/reference_data_ensembl38/Homo_sapiens.GRCh38.92.1.gtf \
+-gtf /n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/reference_data/Homo_sapiens.GRCh38.92.gtf \
 --java-mem-size=8G
 ```
 
@@ -224,7 +221,7 @@ The first few numbers listed in the report are the mapping statistics. Qualimap 
 > * The count related metrics are not as relevant to us since we have quantified with Salmon at the transcript level.
 
 #### **Reads genomic origin**
-This section reports how many alignments fall into exonic, intronic and intergenic regions along with a number of intronic/intergenic alignments overlapping exons. Exonic region includes 5’UTR,protein coding region and 3’UTR region. This information is summarized in table in addition to a pie chart as shown below.
+This section reports how many alignments fall into exonic, intronic and intergenic regions along with a number of intronic/intergenic alignments overlapping exons. Exonic region includes 5’UTR, protein coding region and 3’UTR region. This information is summarized in table in addition to a pie chart as shown below.
 
 <p align="center">
 <img src="../img/qualimap_genomic_feature.png" width="700">
