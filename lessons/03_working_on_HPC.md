@@ -203,10 +203,6 @@ Some key LMOD commands are listed below:
 
 ## Filesystems on FAS-RC
 
-<p align="center">
-<img src="../img/O2_primary-storage.png" width="600">
-</p>
-
 * Storage on HPC systems is organized differently than on your personal machine.
 * Each node on the cluster has minimal local storage; instead, most of it is on disks bundled together externally.
 * Storage filesystems can be quite complex, with large spaces dedicated to a pre-defined purpose.
