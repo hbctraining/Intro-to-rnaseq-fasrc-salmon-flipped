@@ -1,7 +1,7 @@
 ---
 title: "Automating the RNA-seq workflow"
-author: "Meeta Mistry, Radhika Khetani, Mary Piper, Jihe Liu"
-date: "Monday, November 23, 2020"
+author: "Meeta Mistry, Radhika Khetani, Mary Piper, Jihe Liu, Will Gammerdinger"
+date: "Tuesday, November 23, 2021"
 ---
 
 ## Learning Objectives:
@@ -17,61 +17,39 @@ This will ensure that you run every sample with the exact same parameters, and w
 
 ### Using "scratch space"
 
-Before we get started, let's talk a little bit about how data are stored on O2. O2, like many clusters, has several different storage options; each of which has different amounts of space available, and is differently backed up. One filesystem is the `/n/scratch3/` space. This directory has a lot of shared disk space available, but the files are not backed up and they will be deleted if left "untouched" for more than 30 days.
+Before we get started, let's talk a little bit about how data are stored on FAS-RC. FAS-RC, like many clusters, has several different storage options; each of which has different amounts of space available, and is differently backed up. One filesystem is the `/n/holyscratch01/` space. This directory has a lot of shared disk space available, but the files are not backed up and they will be deleted if left "untouched" for more than 90 days.
 
-By design `/n/scratch3/` is to be used for intermediate files that are created during any analysis. An example is in the schematic below. 
+By design `/n/holyscratch01/` is to be used for intermediate files that are created during any analysis. An example is in the schematic below. 
 
 <p align="center">
-<img src="../img/scratch3_best-practice.png" width="600">
+<img src="../img/Scratch_workflow.png" width="600">
 </p>
 
-Today, we are going to learn how to use the `/n/scratch3/` storage location as we work on automating our workflow ([More information about scratch space on O2](https://wiki.rc.hms.harvard.edu/display/O2/Scratch3+Storage). We will be maintaining our data in our (backed up) home directories, but all of the output files will be in scratch space. When we are done, we can copy over only those output files that are essential.
+Today, we are going to learn how to use the `/n/holyscratch01/` storage location as we work on automating our workflow. We will be maintaining our data in our (backed up) home directories, but all of the output files will be in scratch space. When we are done, we can copy over only those output files that are essential.
 
 #### Creating a folder in `/n/scratch3/`
 
-To get started let's create a folder for ourselves in `/n/scratch3/` first. We can do so by running the existing script `/n/cluster/bin/scratch3_create.sh` from a login node.
+To get started let's find out PIs in `/n/holyscratch01/` first.
 
 ```bash
-$ sh /n/cluster/bin/scratch3_create.sh
+$ ls /n/holyscratch01/
 ```
-
-When you press enter you will see:
-
-```
-Do you want to create a scratch3 directory under /n/scratch3/users? [y/N]
-```
-
-Please say `y`. Next, it will display the guidelines for this folder and ask you to verify that you have read them:
-
-```
-Do you want to create a scratch3 directory under /n/scratch3/users? [y/N]> y
-
-By typing 'YES' I will comply with HMS RC guidelines for using Scratch3.
-I also confirm that I understand that files in my scratch directory WILL NOT BE BACKED UP IN ANY WAY.
-I also understand that THIRTY DAYS after I last access a given file or directory in my scratch directory,
-it will be DELETED with NO POSSIBILITY of retrieval.
-
-I understand HMS RC guidelines for using Scratch3:
-```
-
-Please answer `Yes` or `yes` here, once you do you will get some additional information and your command prompt back.
-
-```
-I understand HMS RC guidelines for using Scratch3: yes
-Your scratch3 directory was created at /n/scratch3/users/r/rc_trainingXX.
-This has a limit of 10TB of storage and 1 million files.
-You can check your scratch3 quota using the scratch3_quota.sh command.
-```
-
-Great, now we all have created a work directory for ourselves in the `/n/scratch3/` storage space! 
-
-Let's go ahead and create a folder within our `/n/scratch3/` storage space for the results of our analysis.
 
 ```bash
-mkdir /n/scratch3/users/r/$USER/rnaseq_hbc-workshop
+$ cd /n/holyscratch01/PI_lab/
+
+$ mkdir $USER
 ```
 
-When we create our script, we will make sure that all of the analysis output gets saved in the `/n/scratch3/users/r/$USER/rnaseq_hbc-workshop` folder.
+Great, now we all have created a work directory for ourselves in the `/n/holyscratch01/` storage space! 
+
+Let's go ahead and create a folder within our `/n/holyscratch01/` storage space for the results of our analysis.
+
+```bash
+mkdir /n/holyscratch01/PI_lab/$USER/rnaseq_hbc-workshop
+```
+
+When we create our script, we will make sure that all of the analysis output gets saved in the `/n/holyscratch01/PI_lab/$USER/rnaseq_hbc-workshop` folder.
 
 ### Start an interactive session
 
@@ -80,7 +58,7 @@ We will be working with an interactive session with 6 cores.
 > If you have a session with fewer cores then `exit` out of your current interactive session and start a new one with `-c 6`.
 
 ```bash
-$ srun --pty -p interactive -t 0-3:00 -c 6 --mem 8G --reservation=HBC3 /bin/bash
+$ salloc -p test -t 0-3:00 --mem 8G -c 6
 ```
 
 ### More Flexibility with variables
@@ -112,14 +90,14 @@ We will be using this concept in our automation script, wherein we will accept t
 
 ### Writing the automation script!
 
-We will start writing the script on our laptops using a simple text editor like Sublime Text or Notepad++. Let's being with the shebang line and a `cd` command so that our results are all written on `/n/scratch3/`. 
+We will start writing the script on our laptops using a simple text editor like Sublime Text or Notepad++. Let's being with the shebang line and a `cd` command so that our results are all written on `/n/holyscratch01/`. 
 
 ```bash
 #!/bin/bash/
 
-# change directories to /n/scratch3/ so that all the analysis is stored there.
+# change directories to /n/holyscratch01/ so that all the analysis is stored there.
 
-cd /n/scratch3/users/r/$USER/rnaseq_hbc-workshop/
+cd /n/holyscratch01/PI_lab/$USER/rnaseq_hbc-workshop/
 ```
 
 **We want users to input the path to the fastq file as input to the shell script.** To make this happen, we will use the `$1` positional parameter variable within the script. 
@@ -135,7 +113,7 @@ fq=$1
 
 In the rest of the script, we can now call the fastq file using `$fq` instead of `$1`!
 
-> When we set up variables we do not use the `$` before it, but when we *use the variable*, we always have to have the `$` before it. >
+> When we set up variables we do not use the `$` before it, but when we *use the variable*, we always have to have the `$` before it.
 >
 > For example: 
 >
@@ -171,9 +149,9 @@ Next we'll initialize 3 more variables named `genome`, `transcriptome` and `gtf`
 ```bash
 # directory with the genome and transcriptome index files + name of the gene annotation file
 
-genome=/n/groups/hbctraining/intro_rnaseq_hpc/reference_data_ensembl38/ensembl38_STAR_index
-transcriptome=/n/groups/hbctraining/rna-seq_2019_02/reference_data/salmon_index
-gtf=/n/groups/hbctraining/intro_rnaseq_hpc/reference_data_ensembl38/Homo_sapiens.GRCh38.92.1.gtf
+genome=/n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/indicies/ensembl38_STAR_index
+transcriptome=/n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/indicies/salmon_index
+gtf=/n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/reference_data/Homo_sapiens.GRCh38.92.gtf
 ```
 
 We'll create output directories, but with the `-p` option. This will make sure that `mkdir` will create the directory only if it does not exist, and it won't throw an error if it does exist.
@@ -209,14 +187,11 @@ All of our variables are now staged. Next, let's make sure all the modules are l
 ```bash
 # set up the software environment (use version numbers)
 
-module load fastqc/0.11.3
-module load gcc/6.2.0  
-module load star/2.7.0a
-module load samtools/1.3.1
-module load java/jdk-1.8u112
-module load qualimap/2.2.1
-module load salmon/1.4.0
+module load fastqc/0.11.8-fasrc01
+module load STAR/2.7.0e-fasrc01
+module load salmon/0.12.0-fasrc01
 unset DISPLAY
+export PATH=$PATH:/n/holylfs05/LABS/hsph_bioinfo/Everyone/holylfs/bcbio_nextgen/bin:/n/holylfs05/LABS/hsph_bioinfo/Everyone/holylfs/bcbio_nextgen/anaconda/bin
 ```
 
 ### Preparing for future debugging
@@ -279,7 +254,7 @@ It is okay to specify this after everything else is set up, since you will have 
 
 ### Saving and running script
 
-To transfer the contents of the script from your laptop to O2, you can copy and paste the contents into a new file called `rnaseq_analysis_on_input_file.sh` using `vim`. 
+To transfer the contents of the script from your laptop to FAS-RC, you can copy and paste the contents into a new file called `rnaseq_analysis_on_input_file.sh` using `vim`. 
 
 ```bash
 $ cd ~/rnaseq/scripts/
@@ -311,11 +286,11 @@ Below is what this second script (`rnaseq_analysis_on_allfiles.slurm`) would loo
 ```bash
 #!/bin/bash
 
-#SBATCH -p medium 		# partition name
+#SBATCH -p shared 		# partition name
 #SBATCH -t 0-6:00 		# hours:minutes runlimit after which job will be killed
 #SBATCH -c 6 		# number of cores requested -- this needs to be greater than or equal to the number of cores you plan to use to run your job
 #SBATCH --mem 8G
-#SBATCH --job-name STAR_mov10 		# Job name
+#SBATCH --job-name rnaseq-workflow-serial 		# Job name
 #SBATCH -o %j.out			# File to which standard out will be written
 #SBATCH -e %j.err 		# File to which standard err will be written
 
@@ -356,7 +331,7 @@ This script loops through the same files as in the previous (demo) script, but t
 for fq in ~/rnaseq/raw_data/*.fq
 do
 
-sbatch -p short -t 0-2:00 -c 6 --job-name rnaseq-workflow --mem 8G --wrap="sh ~/rnaseq/scripts/rnaseq_analysis_on_input_file.sh $fq"
+sbatch -p shared -t 0-2:00 -c 6 --job-name rnaseq-workflow-parallel --mem 8G --wrap="sh ~/rnaseq/scripts/rnaseq_analysis_on_input_file.sh $fq"
 sleep 1	# wait 1 second between each job submission
   
 done
@@ -370,12 +345,12 @@ $ sh rnaseq_analysis_on_allfiles_for-slurm.sh
 
 What you should see on the output of your screen would be the jobIDs that are returned from the scheduler for each of the jobs that your script submitted.
 
-You can use `O2sacct` to check progress. And we can check if there are any additional files in our analysis folder.
+You can use `sacct` to check progress. And we can check if there are any additional files in our analysis folder.
 
 ```bash
-$ O2sacct
+$ sacct
 
-$ ls -l /n/scratch3/users/r/$USER/rnaseq_hbc-workshop/
+$ ls -l /n/holyscratch01/PI_lab/$USER/rnaseq_hbc-workshop/
 ```
 
 Don't forget about the `scancel` command, should something go wrong and you need to cancel your jobs.
