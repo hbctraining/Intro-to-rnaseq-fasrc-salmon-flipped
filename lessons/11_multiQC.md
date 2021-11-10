@@ -80,9 +80,9 @@ To run MultiQC, we can provide it two inputs at a minimum:
 ```bash
 $ multiqc -n multiqc_report_rnaseq \
 /n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/full_dataset_results/fastqc/*zip \
-/n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/full_dataset_results/*Log.final.out \
-/n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/full_dataset_results/* \
-/n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/full_dataset_results/*salmon
+/n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/full_dataset_results/STAR/*Log.final.out \
+/n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/full_dataset_results/qualimap/* \
+/n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/full_dataset_results/salmon/*salmon
 ```
 
 > **NOTE**: You will see the progress of analysis printed out on the terminal as the tool runs. If you want to save this output into a log file (for future reference), you can use `2>` operator to redirect it to a file. For example, at the end of script, add `2> log.txt`. `2>`redirects the output of so-called standard error.
