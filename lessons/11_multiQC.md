@@ -1,6 +1,7 @@
 ---
 title: MultiQC
-authors: Radhika Khetani, Mary Piper, Jihe Liu, Meeta Mistry
+authors: Radhika Khetani, Mary Piper, Jihe Liu, Meeta Mistry, Will Gammerdinger
+date: Friday, November 19, 2021
 ---
 
 Approximate time: 30 minutes
@@ -39,29 +40,35 @@ Then navigate into that directory:
 $ cd results/multiqc_report
 ```
 
-Next, load the three modules needed to run MultiQC: `gcc`, `python`, `multiqc`.
+Next, MultiQC is also not currently a module on FAS-RC, so we will once again need to use the version we have installed on the server. First, check to see if you still have the PATH from the previous lesson in your PATH variable. You can check this with:
 
 ```bash
-$ cd results/multiqc_report
-
-$ module load gcc/6.2.0 python/2.7.12 multiqc/1.5
+echo $PATH
 ```
-***
 
-**Exercise**
+If the return of this ends with:
 
-How did we know which modules to load in addition to multiqc?
+```
+/n/holylfs05/LABS/hsph_bioinfo/Everyone/holylfs/bcbio_nextgen/bin:/n/holylfs05/LABS/hsph_bioinfo/Everyone/holylfs/bcbio_nextgen/anaconda/bin
+```
 
-***
+Then you are all set and can skip this next `export` command. If your PATH does not end with the above paths, you will need to `export` them again using this command:
 
-We are going to run MultiQC on the following 4 outputs from our workflow:
+```bash
+export PATH=$PATH:/n/holylfs05/LABS/hsph_bioinfo/Everyone/holylfs/bcbio_nextgen/bin:/n/holylfs05/LABS/hsph_bioinfo/Everyone/holylfs/bcbio_nextgen/anaconda/bin
+
+```
+
+---
+
+Now, we are going to run MultiQC on the following 4 outputs from our workflow:
 
 * `.zip` files from FastQC
 * `.Log.final.out` files from STAR
 * `.qualimap` files from Qualimap
 * `.salmon` directories from salmon
 
-To create a more meaningful report to look at we thought it best to run MultiQC on the full dataset instead of the subset we have been working with so far. We have run each of the tools mentioned above on the full dataset and stored the result in the directory `/n/groups/hbctraining/rna-seq_2019_02/snapshots/full_dataset_results`. We will point to these files as input for our MultiQC analysis.
+To create a more meaningful report to look at we thought it best to run MultiQC on the full dataset instead of the subset we have been working with so far. We have run each of the tools mentioned above on the full dataset and stored the result in the directory `/n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/full_dataset_results/`. We will point to these files as input for our MultiQC analysis.
 
 To run MultiQC, we can provide it two inputs at a minimum:
 
@@ -72,10 +79,10 @@ To run MultiQC, we can provide it two inputs at a minimum:
 
 ```bash
 $ multiqc -n multiqc_report_rnaseq \
-/n/groups/hbctraining/rna-seq_2019_02/snapshots/full_dataset_results/fastqc/*zip \
-/n/groups/hbctraining/rna-seq_2019_02/snapshots/full_dataset_results/STAR/*Log.final.out \
-/n/groups/hbctraining/rna-seq_2019_02/snapshots/full_dataset_results/qualimap/* \
-/n/groups/hbctraining/rna-seq_2019_02/snapshots/full_dataset_results/salmon/*salmon
+/n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/full_dataset_results/fastqc/*zip \
+/n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/full_dataset_results/*Log.final.out \
+/n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/full_dataset_results/* \
+/n/holylfs05/LABS/hsph_bioinfo/Everyone/Workshops/Intro_to_rnaseq/full_dataset_results/*salmon
 ```
 
 > **NOTE**: You will see the progress of analysis printed out on the terminal as the tool runs. If you want to save this output into a log file (for future reference), you can use `2>` operator to redirect it to a file. For example, at the end of script, add `2> log.txt`. `2>`redirects the output of so-called standard error.
@@ -118,7 +125,7 @@ The 'STAR: Alignment Scores' plot visually represents this mapping information. 
 
 > NOTE: The thresholds suggested above will vary depending on the organism that you are working with. Much of what is discussed here is in the context of working with human or mouse data. For example, 75% of mapped reads holds true only if the genome is good or mature. For badly assembled genomes, we may not observe a high mapping rate, even if the actual sequences from the sample are good.
 
-Salmon also provides a `%Aligned` column representing the percent of mapped reads. The percentage from Salmon is different from that of STAR, because STAR is based on the alignment to genome reference, while Salmon is based on the alignment to transcriptome reference. Since we will be using the salmon abundance estimates for downstream analysis, these numbers are particularly important for our analysis.
+Salmon also provides a `%Aligned` column representing the percent of mapped reads. The percentage from Salmon is different from that of STAR, because STAR is based on the alignment to genome reference, while Salmon is based on the alignment to transcriptome reference. Since we will be using the Salmon abundance estimates for downstream analysis, these numbers are particularly important for our analysis.
 
 
 ### Complexity
@@ -135,7 +142,7 @@ The transcript position plot can also help identify 5' or 3' bias, in addition t
 <img src="../img/multiqc_coverage_profile.png" width="600">
   </p>
 
-In addition, we can see whether our different samples have differences in `%GC` column. GC bias could be caused by low-complexity libraries, differences in amplification, or library-specific issues. We expect to observe similar GC content aross samples.
+In addition, we can see whether our different samples have differences in `%GC` column. GC bias could be caused by low-complexity libraries, differences in amplification, or library-specific issues. We expect to observe similar GC content across samples.
 
 ### Contamination
 
