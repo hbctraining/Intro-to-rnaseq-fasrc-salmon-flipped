@@ -46,10 +46,10 @@ Next, MultiQC is also not currently a module on FAS-RC, so we will once again ne
 echo $PATH
 ```
 
-If the return of this ends with:
+If the return of this starts with:
 
-```
-/n/holylfs05/LABS/hsph_bioinfo/Everyone/holylfs/bcbio_nextgen/bin:/n/holylfs05/LABS/hsph_bioinfo/Everyone/holylfs/bcbio_nextgen/anaconda/bin
+```bash
+/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/anaconda/bin:/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/bin
 ```
 
 Then you are all set and can skip this next `export` command. If your PATH does not end with the above paths, you will need to `export` them again using this command:
