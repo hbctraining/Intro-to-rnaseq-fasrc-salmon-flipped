@@ -51,11 +51,13 @@ To get started with this lesson, start an interactive session with 6 cores and 8
 $ salloc -p test -t 0-3:00 --mem 8G -c 6
 ```
 
-You should have a directory tree setup similar to that shown below. It is best practice to have all files you intend on using for your workflow present within the same directory. 
+You should have a directory tree setup similar to that shown below when you run `tree -L 2`. It is best practice to have all files you intend on using for your workflow present within the same directory. 
 
 ```bash
 rnaseq
 	├── logs
+	|   ├── fastqc.err
+	|.  └── fastqc.out
 	├── meta
 	├── raw_data
 	│   ├── Irrel_kd_1.subset.fq
@@ -65,7 +67,14 @@ rnaseq
 	│   ├── Mov10_oe_2.subset.fq
 	│   └── Mov10_oe_3.subset.fq
 	├── results
+	|   ├── fastqc
+	|.  └── salmon
 	└── scripts
+	    ├── salmon_job_id.err
+	    ├── salmon_job_id.out
+	    ├── salmon_all_samples_jharvard.sbatch
+	    ├── salmon_all_samples.sbatch
+	    └── mov10_fastqc.run
 ```
 
 To use the STAR aligner, load the module: 
@@ -170,7 +179,7 @@ $ unset DISPLAY
 We also need to load the Qualimap module. Unfortunately, a Qualimap module is not currently installed on the server, but we have installed it on a shared space that you can access. In order to access easily use this software we will need to add them to your path. Copy and paste this command into your terminal:
 
 ```bash
-export PATH=$PATH:/n/holylfs05/LABS/hsph_bioinfo/Everyone/holylfs/bcbio_nextgen/bin:/n/holylfs05/LABS/hsph_bioinfo/Everyone/holylfs/bcbio_nextgen/anaconda/bin
+PATH=/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/anaconda/bin:/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/bin:$PATH
 ```
 
 > Note: If you log off, this PATH information will be forgotten and you will need to re-enter the previous command if you wish to use Qualimap in the future.
