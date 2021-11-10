@@ -56,8 +56,8 @@ You should have a directory tree setup similar to that shown below when you run 
 ```bash
 rnaseq
 	├── logs
-	|   ├── fastqc.err
-	|.  └── fastqc.out
+	│   ├── fastqc.err
+	│.  └── fastqc.out
 	├── meta
 	├── raw_data
 	│   ├── Irrel_kd_1.subset.fq
@@ -67,8 +67,8 @@ rnaseq
 	│   ├── Mov10_oe_2.subset.fq
 	│   └── Mov10_oe_3.subset.fq
 	├── results
-	|   ├── fastqc
-	|.  └── salmon
+	│   ├── fastqc
+	│.  └── salmon
 	└── scripts
 	    ├── salmon_job_id.err
 	    ├── salmon_job_id.out
