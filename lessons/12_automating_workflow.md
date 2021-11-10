@@ -27,7 +27,7 @@ By design `/n/holyscratch01/` is to be used for intermediate files that are crea
 
 Today, we are going to learn how to use the `/n/holyscratch01/` storage location as we work on automating our workflow. We will be maintaining our data in our (backed up) home directories, but all of the output files will be in scratch space. When we are done, we can copy over only those output files that are essential.
 
-#### Creating a folder in `/n/scratch3/`
+#### Creating a folder in `/n/holyscratch01/`
 
 To get started let's find out PIs in `/n/holyscratch01/` first.
 
