@@ -189,9 +189,9 @@ All of our variables are now staged. Next, let's make sure all the modules are l
 
 module load fastqc/0.11.8-fasrc01
 module load STAR/2.7.0e-fasrc01
-module load salmon/0.12.0-fasrc01
+module load salmon/1.5.2-fasrc01
 unset DISPLAY
-export PATH=$PATH:/n/holylfs05/LABS/hsph_bioinfo/Everyone/holylfs/bcbio_nextgen/bin:/n/holylfs05/LABS/hsph_bioinfo/Everyone/holylfs/bcbio_nextgen/anaconda/bin
+export PATH=/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/anaconda/bin:/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/bin:$PATH
 ```
 
 ### Preparing for future debugging
