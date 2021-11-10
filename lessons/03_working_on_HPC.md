@@ -1,6 +1,6 @@
 ---
 title: Working on HPC
-author: Radhika Khetani, Meeta Mistry, Mary Piper, Jihe Liu, Will Gammerdinger
+author: Radhika Khetani, Meeta Mistry, Mary Piper, Jihe Liu, Will Gammerdinger, Dan Caunt
 date: November 16, 2021
 duration: 35
 ---
