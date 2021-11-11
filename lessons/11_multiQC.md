@@ -55,7 +55,7 @@ If the return of this starts with:
 Then you are all set and can skip this next `export` command. If your PATH does not end with the above paths, you will need to `export` them again using this command:
 
 ```bash
-PATH=/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/anaconda/bin:/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/bin:$PATH
+export PATH=$PATH:/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/anaconda/bin:/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/bin
 
 ```
 
