@@ -179,7 +179,7 @@ $ unset DISPLAY
 We also need to load the Qualimap module. Unfortunately, a Qualimap module is not currently installed on the server, but we have installed it on a shared space that you can access. In order to access easily use this software we will need to add them to your path. Copy and paste this command into your terminal:
 
 ```bash
-PATH=/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/anaconda/bin:/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/bin:$PATH
+export PATH=$PATH:/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/anaconda/bin:/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/bin
 ```
 
 > Note: If you log off, this PATH information will be forgotten and you will need to re-enter the previous command if you wish to use Qualimap in the future.
