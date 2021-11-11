@@ -191,7 +191,7 @@ module load fastqc/0.11.8-fasrc01
 module load STAR/2.7.0e-fasrc01
 module load salmon/1.5.2-fasrc01
 unset DISPLAY
-export PATH=/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/anaconda/bin:/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/bin:$PATH
+export PATH=$PATH:/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/anaconda/bin:/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/bin
 ```
 
 ### Preparing for future debugging
