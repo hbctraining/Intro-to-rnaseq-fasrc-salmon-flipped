@@ -103,6 +103,7 @@
 
 ## Resources
 * [Video about statistics behind salmon quantification](https://www.youtube.com/watch?v=TMLIxwDP7sk)
+* [Training materials from FAS-RC](https://docs.rc.fas.harvard.edu/kb/training-materials/)
 
 ***
 
