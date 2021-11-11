@@ -103,6 +103,7 @@
 
 ## Resources
 * [Video about statistics behind salmon quantification](https://www.youtube.com/watch?v=TMLIxwDP7sk)
+* [Obtaining reference genomes or transcriptomes](https://hbctraining.github.io/Accessing_public_genomic_data/lessons/accessing_genome_reference_data.html)
 * [Training materials from FAS-RC](https://docs.rc.fas.harvard.edu/kb/training-materials/)
 
 ***
