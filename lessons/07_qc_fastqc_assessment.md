@@ -47,35 +47,35 @@ Within the 'Site Manager' window, do the following:
 5. User: Username (i.e jharvard) 
 
 <p align="center">
-<img src="https://github.com/hbctraining/Intro-to-rnaseq-fasrc-salmon-flipped/blob/master/img/FileZilla_General_tab.png" width="500">
+<img src="../img/FileZilla_General_tab.png" width="500">
 </p>
 
 6. Click on the 'Advanced' tab
 7. Set your 'Default local directory' to be the directory/folder on your local computer you would like to have as the default when opening up a connection with FAS-RC through FileZilla.
 
 <p align="center">
-<img src="https://github.com/hbctraining/Intro-to-rnaseq-fasrc-salmon-flipped/blob/master/img/FileZilla_Advanced_tab.png" width="500">
+<img src="../img/FileZilla_Advanced_tab.png" width="500">
 </p>
 
 8. Click on the 'Transfer settings' Tab and check the box for 'Limit the number of simultaneous connections' and set the 'Maximum number of connections' to '1'.
 9. Click 'Connect' 
 
 <p align="center">
-<img src="https://github.com/hbctraining/Intro-to-rnaseq-fasrc-salmon-flipped/blob/master/img/FileZilla_Transfer_settings_tab.png" width="500">
+<img src="../img/FileZilla_Transfer_settings_tab.png" width="500">
 </p>
 
 10. You will be prompted with a pop-up for your FAS-RC password.
 11. Click 'OK'
 
 <p align="center">
-<img src="https://github.com/hbctraining/Intro-to-rnaseq-fasrc-salmon-flipped/blob/master/img/FileZilla_Password.png" width="400">
+<img src="../img/FileZilla_Password.png" width="400">
 </p>
 
 12. After a successful password attempt, you will be prompted with a second, similar looking pop-up asking for your 'Verification code' which can be found using your 2-factor authentication device.
 13. Click 'OK'
 
 <p align="center">
-<img src="https://github.com/hbctraining/Intro-to-rnaseq-fasrc-salmon-flipped/blob/master/img/FileZilla_Verification_code.png" width="400">
+<img src="../img/FileZilla_Verification_code.png" width="400">
 </p>
 
 > Note: If you require troubleshooting, [here](https://docs.rc.fas.harvard.edu/kb/sftp-file-transfer/) is an additional resource for connecting to FAS-RC using FileZilla. 
