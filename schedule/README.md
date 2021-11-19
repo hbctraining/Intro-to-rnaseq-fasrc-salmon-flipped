@@ -48,9 +48,9 @@
 | Time |  Topic  | Instructor |
 |:-----------:|:----------:|:--------:|
 | 09:30 - 10:30 | Self-learning lessons review | All |
-| 10:30 - 11:10 | [Sequence Alignment Theory](../lectures/alignment_quantification.pdf) | Will |
-| 11:10 - 11:50 | [Quantifying expression using alignment-free methods (Salmon)](../lessons/08_quasi_alignment_salmon.md) | Meeta |
-| 11:50 - 12:00 | [Review of workflow](../lectures/workflow_overview.pdf) | Jihe |
+| 10:30 - 11:10 | [Sequence Alignment Theory](../lectures/alignment_quantification.pdf) | Meeta |
+| 11:10 - 11:50 | [Quantifying expression using alignment-free methods (Salmon)](../lessons/08_quasi_alignment_salmon.md) | Will |
+| 11:50 - 12:00 | [Review of workflow](../lectures/workflow_overview.pdf) | Meeta |
 
 ### Before the next class:
 
