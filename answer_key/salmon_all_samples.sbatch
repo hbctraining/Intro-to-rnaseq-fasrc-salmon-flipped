@@ -15,7 +15,7 @@
 
 
 # Load Salmon
-module load salmon/0.12.0-fasrc01
+module load salmon/1.5.2-fasrc01
 
 # Change directories to output directory
 cd ~/rnaseq/results/salmon/
