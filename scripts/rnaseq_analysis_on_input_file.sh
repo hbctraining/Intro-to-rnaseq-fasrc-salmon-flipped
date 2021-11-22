@@ -46,7 +46,6 @@ salmon_mappings=results/salmon/${samplename}_salmon.out
 
 module load fastqc/0.11.8-fasrc01
 module load STAR/2.7.0e-fasrc01
-module load salmon/0.12.0-fasrc01
 
 unset DISPLAY
 
@@ -56,12 +55,8 @@ echo "Processing file $fq"
 
 echo "Starting QC for $samplename"
 
-echo "Error comes here"
-
 # Run FastQC and move output to the appropriate folder
 fastqc -o $fastqc_out $fq 
-
-echo "Error stop here"
 
 # Run STAR
 STAR --runThreadN $cores --genomeDir $genome --readFilesIn $fq --outFileNamePrefix $align_out --outSAMtype BAM SortedByCoordinate --outSAMunmapped Within --outSAMattributes Standard
@@ -76,6 +71,8 @@ qualimap rnaseq \
 --java-mem-size=8G
 
 # Run salmon
+
+module load salmon/1.5.2-fasrc01
 
 echo "Starting Salmon run for $samplename"
 
