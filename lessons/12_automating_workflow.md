@@ -182,17 +182,18 @@ salmon_mappings=results/salmon/${samplename}_salmon.out
 
 ### Keeping track of tool versions
 
-All of our variables are now staged. Next, let's make sure all the modules are loaded. This is also a good way to keep track of the versions of tools that you are using in the script:
+All of our variables are now staged. Next, let's make sure the modules are loaded. This is also a good way to keep track of the versions of tools that you are using in the script:
 
 ```bash
 # set up the software environment (use version numbers)
 
 module load fastqc/0.11.8-fasrc01
 module load STAR/2.7.0e-fasrc01
-module load salmon/1.5.2-fasrc01
 unset DISPLAY
 export PATH=$PATH:/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/anaconda/bin:/n/holylfs05/LABS/hsph_bioinfo/Everyone/bcbio/bin
 ```
+
+> NOTE: There is a dependency complication between FASTQC and Salmon when running FASTQC on FAS-RC. As a result, we are going to load Salmon later in our script.
 
 ### Preparing for future debugging
 
@@ -229,6 +230,8 @@ qualimap rnaseq \
 --java-mem-size=8G
 
 # Run salmon
+
+module load salmon/1.5.2-fasrc01
 
 echo "Starting Salmon run for $samplename"
 
