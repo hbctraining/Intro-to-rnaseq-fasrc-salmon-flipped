@@ -8,9 +8,9 @@ Approximate time: 50 minutes
 
 ## Learning Objectives:
 
+* Run an alignment tool to generate BAM files for input to Qualimap
 * Run Qualimap to compute metrics on alignment files
-* Run an alignment tool to generate input for Qualimap (BAM files)
-
+* Assess and compare QC metrics among samples
 
 ## Quality Control
 
