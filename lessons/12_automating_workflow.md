@@ -6,7 +6,7 @@ date: "Tuesday, November 23, 2021"
 
 ## Learning Objectives:
 
-* Create an efficient and reusable workflow for RNA-seq data analysis using shell scripts
+* Create a reusable and efficient workflow for RNA-seq data analysis using shell scripts
 
 ## Automating the analysis path from Sequence reads to Count matrix
 
