@@ -6,8 +6,7 @@ date: "Tuesday, November 23, 2021"
 
 ## Learning Objectives:
 
-* Automate a workflow by grouping a series of sequential commands into a script
-* Modify and submit the workflow script to the cluster
+* Create an efficient and reusable workflow for RNA-seq data analysis using shell scripts
 
 ## Automating the analysis path from Sequence reads to Count matrix
 
