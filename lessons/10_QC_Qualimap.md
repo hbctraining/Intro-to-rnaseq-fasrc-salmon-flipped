@@ -10,7 +10,6 @@ Approximate time: 50 minutes
 
 * Run an alignment tool to generate BAM files for input to Qualimap
 * Run Qualimap to compute metrics on alignment files
-* Assess and compare QC metrics among samples
 
 ## Quality Control
 
