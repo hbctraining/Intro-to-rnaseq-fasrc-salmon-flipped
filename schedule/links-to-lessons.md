@@ -24,15 +24,6 @@
 * These materials focus on the use of local computational resources at Harvard, which are **only accessible to Harvard affiliates**
 * Non-Harvard folks can [download the data](https://www.dropbox.com/s/3lua2h1oo18gbug/unix_lesson.tar.gz?dl=1) and set up to work on their local clusters (with the help of local system administrators)
 
-### Instructions for Harvard researchers with access to HMS-RC's O2 cluster
-
-To run through the code in the lessons below, you will need to be **logged into O2** and **working on a compute node** (i.e. your command prompt should have the word `compute` in it).
-
-1. Log in using `ssh ecommonsID@o2.hms.harvard.edu` and enter your password.
-2. Once you are on the login node, use `srun --pty -p interactive -t 0-2:30 --mem 1G /bin/bash` to get on a compute node or as specified in the lesson.
-3. Proceed only once your command prompt has the word `compute` in it.
-4. If you log out between lessons (using the `exit` command twice), please follow points 1. and 2. above to log back in and get on a compute node when you restart with the self learning.
-
 ## Lessons
 
 ### Part 1 
