@@ -24,6 +24,14 @@
 * These materials focus on the use of local computational resources at Harvard, which are **only accessible to Harvard affiliates**
 * Non-Harvard folks can [download the data](https://www.dropbox.com/s/3lua2h1oo18gbug/unix_lesson.tar.gz?dl=1) and set up to work on their local clusters (with the help of local system administrators)
 
+## Cluster access
+To run through the code in the lessons below, you will need a FAS-RC cluster account. Once you have an account, please do the following.
+
+1. Log in using `ssh username@login.rc.fas.harvard.edu` and enter your password (replace username with your username). 
+2. Once you are on the login node, use `salloc -p test -t 0-2:30 --mem 8G` to get on a compute node or as specified in the lesson.
+3. Proceed only once your command prompt does not have the word `login` in it.
+4. If you log out between lessons (using the `exit` command twice), please follow points 1. and 2. above to log back in and get on a compute node when you restart with the self learning.
+
 ## Lessons
 
 ### Part 1 
